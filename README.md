@@ -9,7 +9,7 @@ The following files are added to this repository
 4. Swagger - Swggger file generated from WSO2 enterprise integrator and imported into API Manager
 5. offer-quote-details - Two spring boot based services returning offer and quote details based on the resource id
 6. APIManagerConfig(pointing to integrator) - Config from API Manger after configuring products service pointing to enterprise integrator api and importing the swagger from EI
-7. ProductsService-soapui-project.xml.zip - SOAP UI project  for products service using OAUTH2
+7. ProductsService-soapui-project.xml.zip - SOAP UI project  for products service
 
 Flow is
   SOAP UI Request -> Products Service on API Manager -> API on EI -> Offer and Quote Microservices
@@ -22,5 +22,5 @@ Flow is
   4. Create product service using Swagger file and point to EI (Production and Sandbox) in API Manager Publisher
   5. Go to API Manager store and create an application and subscribe to product service
   6. Generate keys to be used in SOAP UI tests
-  7. Run Soap UI tests with OAUTH2 using details from Application created in API Store :-)
+  7. Run Soap UI tests :-)
   
