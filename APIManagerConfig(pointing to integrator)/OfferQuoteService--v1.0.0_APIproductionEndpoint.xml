@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoint xmlns="http://ws.apache.org/ns/synapse"
+          name="OfferQuoteService--v1.0.0_APIproductionEndpoint">
+   <http uri-template="http://192.168.43.163:8280/offerquote">
+      <timeout>
+         <duration>30000</duration>
+         <responseAction>fault</responseAction>
+      </timeout>
+      <suspendOnFailure>
+         <errorCodes>-1</errorCodes>
+         <initialDuration>0</initialDuration>
+         <progressionFactor>1.0</progressionFactor>
+         <maximumDuration>0</maximumDuration>
+      </suspendOnFailure>
+      <markForSuspension>
+         <errorCodes>-1</errorCodes>
+      </markForSuspension>
+   </http>
+   <property name="ENDPOINT_ADDRESS" value="http://192.168.43.163:8280/offerquote"/>
+</endpoint>

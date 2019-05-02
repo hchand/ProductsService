@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoint xmlns="http://ws.apache.org/ns/synapse"
+          name="OfferQuoteService--v1.0.0_APIsandboxEndpoint">
+   <http uri-template="http://192.168.43.163:8280/offerquote">
+      <timeout>
+         <responseAction>fault</responseAction>
+      </timeout>
+   </http>
+   <property name="ENDPOINT_ADDRESS" value="http://192.168.43.163:8280/offerquote"/>
+</endpoint>
