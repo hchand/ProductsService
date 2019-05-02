@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/offerquote" name="OfferQuoteService" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" protocol="http" uri-template="/{category}/{id}">
+        <inSequence>
+            <!-- Log welcome message -->
+            <log level="custom">
+                <property name="in-message" value="Welcome to Offer Quote Service"/>
+            </log>
+            <!-- Set the properties category and id (path variables), to be used later -->
+            <propertyGroup>
+                <property expression="get-property('uri.var.category')" name="uri.var.category" scope="default" type="STRING"/>
+                <property expression="get-property('uri.var.id')" name="uri.var.id" scope="default" type="STRING"/>
+            </propertyGroup>
+            <!-- Add Switch Mediator to route to right end point based on category value -->
+            <switch source="get-property('uri.var.category')">
+                <case regex="quote">
+                    <log level="custom">
+                        <property expression="fn:concat('Calling quotes service with ID - ', get-property('uri.var.id'))" name="quotes-out-message"/>
+                    </log>
+                    <send>
+                        <endpoint key="QuoteEP"/>
+                    </send>
+                </case>
+                <case regex="offer">
+                    <log level="custom">
+                        <property expression="fn:concat('Calling offers service with ID - ', get-property('uri.var.id'))" name="offers-out-message"/>
+                    </log>
+                    <send>
+                        <endpoint key="OfferEP"/>
+                    </send>
+                </case>
+                <default>
+                    <log description="Default Log" level="custom">
+                        <property expression="fn:concat('Invalid Category - ', get-property('uri.var.category'))" name="default-message"/>
+                    </log>
+                    <drop/>
+                </default>
+            </switch>
+        </inSequence>
+        <outSequence>
+            <!-- Transform json response from the endpoints to xml -->
+            <property name="messageType" scope="axis2" type="STRING" value="application/xml"/>
+            <!-- Transform xml using xsl file, see the difference before and after transformation -->
+            <xslt key="conf:myresources/producttransform.xslt"/>
+            <!-- Validate xml against xsd -->
+            <validate cache-schema="true">
+                <schema key="conf:myresources/product.xsd"/>
+                <on-fail>
+                    <property name="HTTP_SC" scope="axis2" type="STRING" value="404"/>
+                </on-fail>
+            </validate>
+            <send/>
+        </outSequence>
+        <faultSequence>
+            <log level="custom">
+                <property name="text" value="An unexpected error occured"/>
+                <property expression="get-property('ERROR_MESSAGE')" name="message"/>
+                <property expression="get-property('ERROR_DETAIL')" name="detail"/>
+                <property expression="get-property('ERROR_CODE')" name="code"/>
+            </log>
+            <payloadFactory media-type="xml">
+                <format>
+                    <ERROR xmlns="">
+                        <MESSAGE>Failed mediation</MESSAGE>
+                        <DETAIL>$1</DETAIL>
+                    </ERROR>
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="get-property('ERROR_MESSAGE')"/>
+                </args>
+            </payloadFactory>
+            <respond/>
+        </faultSequence>
+    </resource>
+</api>
