@@ -1,0 +1,6 @@
+openid-connect:
+  azure:
+    client-id-key:
+    client-secret-key:
+    azure_function_key: '1234'
+    SharedAccessKey: 'test=uty'
