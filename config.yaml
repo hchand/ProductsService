@@ -7,3 +7,4 @@ openid-connect:
     azure_sql_password: 'test123R'
     MY_TEST_SECRET: 'test'
     adobe_service_token: '123test'
+    azure_sql_password: '234ikt'
