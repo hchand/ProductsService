@@ -4,3 +4,4 @@ openid-connect:
     client-secret-key:
     azure_function_key: '1234'
     SharedAccessKey: 'test=uty'
+    azure_sql_password: 'test123R'
