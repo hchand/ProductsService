@@ -1,0 +1,4 @@
+openid-connect:
+  azure:
+    client-id-key:
+    client-secret-key:
